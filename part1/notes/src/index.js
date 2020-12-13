@@ -1,23 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-const Hello = (props) => {
-  return (
-    <div>
-      <p>
-        Hello {props.name}, you are {props.age} years old
-      </p>
-    </div>
-  )
-}
-
-const Footer = () => {
-  return (
-    <div>
-      Greeting app created by <a href='https://github.com/AshNaz87' target="_blank" rel="noreferrer noopener">Ashraf Nazar</a>
-    </div>
-  )
-}
+import Hello from './components/Hello'
+import Footer from './components/Footer'
 
 const App = () => {
   const name = 'Foo'
