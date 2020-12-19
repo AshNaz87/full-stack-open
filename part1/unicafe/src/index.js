@@ -10,9 +10,11 @@ const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
+
+  const roundNumber = (num) => Math.round(num * 100 + Number.EPSILON) / 100
   const sum = good + neutral + bad
-  const average = (good - bad) / sum || 0
-  const positive = `${(good / sum || 0) * 100} %`
+  const average = roundNumber((good - bad) / sum) || 0
+  const positive = `${roundNumber((good / sum) * 100) || 0} %`
 
   return (
     <>
