@@ -1,4 +1,4 @@
-const Persons = ({results}) => (
+const Persons = ({ results }) => (
   <ul>
     {results.map((person) => (
       <li key={person.id}>

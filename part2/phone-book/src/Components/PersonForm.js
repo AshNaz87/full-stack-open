@@ -8,6 +8,7 @@ const PersonForm = ({
   <form>
     <div>
       Name
+      &nbsp;
       <input
         placeholder='John Doe'
         value={newName}
@@ -16,6 +17,7 @@ const PersonForm = ({
     </div>
     <div>
       Number
+      &nbsp;
       <input
         placeholder='Enter tel no'
         value={telephoneNumber}

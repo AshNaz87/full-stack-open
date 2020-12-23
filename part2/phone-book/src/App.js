@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
@@ -42,7 +43,7 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
-      <Filter searchPerson={searchPerson} handleSearch={handleSearch}/>
+      <Filter searchPerson={searchPerson} handleSearch={handleSearch} />
       <h2>Add a New Contact</h2>
       <PersonForm
         newName={newName}
