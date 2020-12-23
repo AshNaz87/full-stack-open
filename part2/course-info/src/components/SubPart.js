@@ -1,4 +1,4 @@
-const SubPart = ({subPartName, exercises }) => (
+const SubPart = ({ subPartName, exercises }) => (
   <>
     <ul>
       <li>Name: {subPartName}</li>
