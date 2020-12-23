@@ -1,40 +1,38 @@
-import React, { useState } from 'react'
-import Note from './components/Note'
+import React, { useState } from 'react';
+
+import Note from './components/Note';
 
 const App = (props) => {
-  const [notes, setNotes] = useState(props.notes)
-  const [newNote, setNewNote] = useState('')
-  const [showAll, setShowAll] = useState(true)
+  const [notes, setNotes] = useState(props.notes);
+  const [newNote, setNewNote] = useState('');
+  const [showAll, setShowAll] = useState(true);
 
   const addNote = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     const noteObject = {
       content: newNote,
       date: new Date().toISOString(),
       important: Math.random() < 0.5,
       id: notes.length + 1,
-    }
-    setNotes(notes.concat(noteObject))
-    setNewNote('')
-  }
+    };
+    setNotes(notes.concat(noteObject));
+    setNewNote('');
+  };
 
-  const handleNoteChange = (event) => {
-    console.log(event.target.value)
-    setNewNote(event.target.value)
-  }
+  const handleNoteChange = (event) => setNewNote(event.target.value);
 
-  const notesToShow = showAll ? notes : notes.filter((note) => note.important)
+  const notesToShow = showAll ? notes : notes.filter((note) => note.important);
 
   return (
     <div>
       <h1>Notes</h1>
       <div>
-        <button onClick={() => setShowAll(!showAll)}>
-          Show {showAll ? 'important' : 'all'}
+        <button onClick={() => setShowAll(!showAll)}>          
+        Show {showAll ? 'important' : 'all'}
         </button>
       </div>
       <ul>
-        {notes.map((note) => (
+        {notesToShow.map((note) => (
           <Note key={note.id} note={note} />
         ))}
       </ul>
@@ -44,10 +42,10 @@ const App = (props) => {
           value={newNote}
           onChange={handleNoteChange}
         />
-        <button type='submit'>save</button>
+        <button type='submit'>Save</button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
