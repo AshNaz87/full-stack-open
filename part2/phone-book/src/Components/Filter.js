@@ -1,4 +1,4 @@
-const Filter = ({searchPerson, handleSearch}) => (
+const Filter = ({ searchPerson, handleSearch }) => (
   <div>
     Filter shown with
     &nbsp;
