@@ -43,8 +43,7 @@ const App = () => {
   useEffect(() => {
     axios
       .get(`http://localhost:3001/persons`)
-      .then(response => {
-        console.log(response.data)
+      .then(response => {        
         setPersons(response.data)
       })
   }, [])
