@@ -18,32 +18,28 @@ function App() {
      : setHasSearch(true)
   }
 
+  const handleCountry = event => {
+    event.preventDefault()
+    setSearchCountries(event.target.id)
+  }
+
   const getCountries = countries.filter(country => 
     country
       .name
       .toLowerCase()
       .includes(searchCountries.toLocaleLowerCase())
-  )
-
-  const getCountry = countries.filter(country => 
-    country.name.toLowerCase() === searchCountries.toLocaleLowerCase()
-  )
+  )  
       
   useEffect(() => {
     axios
       .get('https://restcountries.eu/rest/v2/all')
       .then(response => setCountries(response.data))
-  }, [])
+  }, [searchCountries])
 
   return (
     <>
       <Search handleSearch={handleSearch} searchCountries={searchCountries} />            
-      {hasSearch && (
-        <>
-          {console.log(getCountries, getCountry)}
-          <Countries countries={getCountries} />
-        </>
-      )}
+      {hasSearch && <Countries countries={getCountries} showCountry={handleCountry} />}
     </>
   )
 }
