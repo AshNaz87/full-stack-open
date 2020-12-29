@@ -1,11 +1,13 @@
-const Country = ({ country }) => (
+import Weather from './Weather'
+
+const Country = ({ country }) => (    
   <>
     <h2>{country.name}</h2>
     <br />
     <dl>
-      <dt>Capital city</dt>
+      <dt><strong>Capital city</strong></dt>
       <dd>{country.capital}</dd>
-      <dt>Population</dt>
+      <dt><strong>Population</strong></dt>
       <dd>{country.population}</dd>      
     </dl>
     <br />
@@ -22,6 +24,7 @@ const Country = ({ country }) => (
       height={250} 
       alt="Country flag"
     />
+  <Weather query={country.capital} />
   </>
 )
 
