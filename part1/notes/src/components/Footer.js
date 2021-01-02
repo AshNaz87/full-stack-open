@@ -1,7 +1,7 @@
 const Footer = () => {
   return (
     <footer>
-      Greeting app created by{' '}
+      Greeting app created by
       <a
         href='https://github.com/AshNaz87'
         target='_blank'
