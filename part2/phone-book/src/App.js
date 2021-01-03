@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
-import Persons from './components/Persons'
+import PersonInfo from './components/PersonInfo'
+import personService from './services/persons'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -15,23 +15,52 @@ const App = () => {
 
   const handleTelNo = event => setTelephoneNumber(event.target.value)
 
-  const handleSearch = event => setSearchPerson(event.target.value)
+  const handleSearch = event => setSearchPerson(event.target.value)  
+  
+  useEffect(() => {
+    personService
+      .getAll()
+      .then(initialPersons => setPersons(initialPersons))
+  }, [searchPerson])
 
   const addPerson = event => {
     event.preventDefault()
     const personObject = {
       name: newName,
-      telNo: telephoneNumber,
-      id: persons.length + 1,
+      telNo: telephoneNumber      
     }
 
-    if (persons.find(person => person.name === newName)) {
-      alert(`${newName} is already added to the Phone Book`)
+    if (persons.filter(person => person.name === personObject.name).length > 0) {
+      if (window.confirm(`${personObject.name} is already added to the Phone Book. Would you like to replace the old number with the new one?`)) {
+        const previousPerson = (persons.find(person => person.name === personObject.name))
+        personService
+          .update(previousPerson.id, { ...previousPerson, telNo: telephoneNumber })
+          .then(updatedPerson => setPersons(persons.map(person => person.name === newName ? updatedPerson : person)))
+          .catch(error => console.log(error))
+        setPersons(persons.concat(personObject))
+        setNewName('')
+        setTelephoneNumber('')
+      }
     } else {
-      setPersons(persons.concat(personObject))
+      personService
+        .create(personObject)
+        .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson))        
+          setNewName('')
+          setTelephoneNumber('')
+        }).catch(error => console.log(error))
     }
-    setNewName('')
-    setTelephoneNumber('')
+  }
+
+  const removePersonOf = id => {
+    const person = persons.find(person => person.id === id)
+
+    if (window.confirm(`Remove ${person.name}?`)) {
+      personService.remove(id, person)      
+      setPersons(persons.filter(person => person.id !== id))
+      setNewName('')
+      setTelephoneNumber('')
+    }
   }
 
   const results = !searchPerson
@@ -39,14 +68,6 @@ const App = () => {
     : persons.filter(person =>
         person.name.toLowerCase().includes(searchPerson.toLocaleLowerCase())
       )
-
-  useEffect(() => {
-    axios
-      .get(`http://localhost:3001/persons`)
-      .then(response => {        
-        setPersons(response.data)
-      })
-  }, [setPersons])
 
   return (
     <div>
@@ -61,7 +82,15 @@ const App = () => {
         addPerson={addPerson}
       />
       <h2>Numbers</h2>
-      <Persons results={results} />      
+      <ul>
+        {results.map(person => (      
+          <PersonInfo           
+            person={person} 
+            key={person.id}
+            removePerson={() => removePersonOf(person.id)}             
+          />
+        ))}
+      </ul>
     </div>
   )
 }
