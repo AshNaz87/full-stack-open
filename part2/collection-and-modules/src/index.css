@@ -11,3 +11,19 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.note {
+  color: midnightblue;
+  font-size: 15px;
+  padding-top: 3px;
+}
+
+.error {
+  background: whitesmoke;
+  border-radius: 5px;
+  border-style: solid;
+  color: red;
+  font-size: 20px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
