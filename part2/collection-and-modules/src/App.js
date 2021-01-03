@@ -19,8 +19,7 @@ const App = props => {
     const noteObject = {
       content: newNote,
       date: new Date().toISOString(),
-      important: Math.random() < 0.5,
-      id: notes.length + 1,
+      important: Math.random() < 0.5
     }
 
     noteService
@@ -44,27 +43,26 @@ const App = props => {
       .update(id, changedNote)
       .then(returnedNote => setNotes(notes.map(note => note.id !== id ? note : returnedNote)))
       .catch(error => {        
-        alert(`The note ${note.content} was already deleted from the server`)
         console.log(error)
         setNotes(notes.filter(n => n.id !== id))
       })
   }
 
-  const notesToShow = showAll ? notes : notes.filter((note) => note.important)
+  const notesToShow = showAll ? notes : notes.filter(note => note.important)
 
   return (
     <>
       <h1>Notes</h1>
       <div>
         <button onClick={() => setShowAll(!showAll)}>          
-        Show {showAll ? 'important' : 'all'}
+          Show {showAll ? 'important' : 'all'}
         </button>
       </div>
       <ul>
         {notesToShow.map((note) => (
           <Note 
-            key={note.id} 
-            note={note} 
+            key={note.id}
+            note={note}
             toggleImportance={() => toggleImportanceOf(note.id)}
           />
         ))}
