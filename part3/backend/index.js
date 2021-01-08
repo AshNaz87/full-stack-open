@@ -37,18 +37,19 @@ app.get('/api/notes/:id', (request, response) => {
 })
 
 const generateId = () => { 
+  let n = 0
   for (let i = 0; i < notes.length; i++) {
     if (notes.length > 0) {
-      Math.max(...notes.map(note => note.id))
+      n = Math.max(...notes.map(note => note.id))
     } else {
       0
     }
   }
-  return i + 1
+  return n + 1
 }
 
 app.post('/api/notes', (request, response) => {
-  const note = request.body
+  body = request.body
   
   if (!body.content) {
     return response.status(400).json({
@@ -57,10 +58,10 @@ app.post('/api/notes', (request, response) => {
   }
   
   const note = {
+    id: generateId(),
     content: body.content,
     important: body.important || false,
-    date: new Date(),
-    id: generateId()
+    date: new Date()
   }
   
   notes = notes.concat(note)
