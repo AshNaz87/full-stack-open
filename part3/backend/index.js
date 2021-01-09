@@ -1,4 +1,3 @@
-const { request } = require('express')
 const express = require('express')
 const app = express()
 
@@ -52,7 +51,7 @@ app.post('/api/notes', (request, response) => {
   body = request.body
   
   if (!body.content) {
-    return response.status(400).json({
+    return response.status(404).json({
       error: 'Content missing'
     })
   }
@@ -71,7 +70,7 @@ app.post('/api/notes', (request, response) => {
 
 app.delete('/api/notes/:id', (request, response) => {
   const id = +request.params.id
-  notes.filter(note => note.id !== id)
+  notes = notes.filter(note => note.id !== id)
 
   response.status(204).end()
 })
