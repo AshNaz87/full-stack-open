@@ -1,7 +1,12 @@
 const express = require('express')
+const bodyParser = require('body-parser')
+const morgan = require('morgan')
 const app = express()
 
-app.use(express.json())
+app.use(bodyParser.json())
+app.use(morgan('tiny'))
+
+morgan.token('body', req => JSON.stringify(req.body, null, 2))
 
 let persons = [
   {
@@ -26,7 +31,9 @@ let persons = [
   }
 ]
 
-app.get('/api/persons', (_request, response) => response.json(persons))
+app.get('/api/persons', (_request, response) => {
+  response.json(persons)
+})
 
 app.get('/api/persons/:id', (request, response) => {
   const id = +request.params.id
@@ -35,7 +42,7 @@ app.get('/api/persons/:id', (request, response) => {
   person ? response.json(person): response.status(404).end()
 })
 
-app.get('/info', (request, response) => {
+app.get('/info', (_request, response) => {
   const numberOfPeople = persons.length
   const time = new Date()
   response.send(
@@ -47,7 +54,7 @@ const generateId = () => {
   return Math.ceil(Math.random() * 1000)
 }
 
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
   body = request.body
 
   if (!body.name) {
@@ -73,10 +80,12 @@ app.post('/api/persons', (request, response) => {
       error: 'Person already exists'
     })
   }
-  
+
   persons = persons.concat(person)
 
   response.json(persons)
+
+  next()
 })
 
 app.delete('/api/persons/:id', (request, response) => {
