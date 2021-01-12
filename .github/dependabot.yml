@@ -51,3 +51,13 @@ updates:
     # Check the npm registry for updates
     schedule:
       interval: "monthly"
+  - package-ecosystem: "npm"
+    # Look for `package.json` and `lock` files
+    directory: "/part3/backend/"
+    schedule:
+      interval: "monthly"
+  - package-ecosystem: "npm"
+    # Look for `package.json` and `lock` files
+    directory: "/part3/phonebook-backend/"
+    schedule:
+      interval: "monthly"
