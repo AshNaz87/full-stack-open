@@ -22,4 +22,11 @@ const remove = (id, person) => {
   return request.then(response => response.data)
 }
 
-export default { getAll, create, update, remove }
+const personService = {
+  getAll, 
+  create, 
+  update, 
+  remove
+}
+
+export default personService
