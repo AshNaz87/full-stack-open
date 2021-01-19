@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import axios from 'axios'
 
 const baseUrl = 'http://localhost:3001/persons'
@@ -22,11 +23,10 @@ const remove = (id, person) => {
   return request.then(response => response.data)
 }
 
-const personService = {
-  getAll, 
-  create, 
-  update, 
+
+export default {
+  getAll,
+  create,
+  update,
   remove
 }
-
-export default personService
