@@ -23,28 +23,29 @@ const App = () => {
     personService
       .getAll()
       .then(initialPersons => setPersons(initialPersons))
-  }, [searchPerson])
+  })
 
   const addPerson = event => {
     event.preventDefault()
+
     const personObject = {
       name: newName,
-      telNo: telephoneNumber      
+      telNo: telephoneNumber
     }
 
-    if (persons.filter(person => person.name === personObject.name).length > 0) {
-      if (window.confirm(`${personObject.name} is already added to the Phone Book. Would you like to replace the old number with the new one?`)) {
-        const previousPerson = (persons.find(person => person.name === personObject.name))
+    if (persons.some(person => person.name === newName)) {
+      if (window.confirm(`${newName} is already added to the Phone Book. Would you like to replace the old number with the new one?`)) {
+        const previousPerson = (persons.find(person => person.name === newName))
         personService
-          .update(previousPerson.id, { ...previousPerson, telNo: telephoneNumber })
+          .update(previousPerson.id, { name: previousPerson.name, telNo: telephoneNumber })
           .then(updatedPerson => {
             setPersons(persons.map(person => person.name === newName ? updatedPerson : person))
           })
           .catch(error => setNotificationMessage({ message: `${error}`, type: 'error' }))
-        setPersons(persons.concat(personObject))
-        setNewName('')
-        setTelephoneNumber('')        
-        setTimeout(() => setNotificationMessage({ message: `Successfully updated telephone number for ${personObject.name}`, type: 'success' }), 2000)
+
+          setNewName('')
+          setTelephoneNumber('')        
+          setTimeout(() => setNotificationMessage({ message: `Successfully updated telephone number for ${newName}`, type: 'success' }), 1000)
       }
     } else {
       personService
@@ -53,24 +54,26 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))        
           setNewName('')
           setTelephoneNumber('')                
-          setTimeout(() => setNotificationMessage({ message: `Successfully added ${personObject.name}`, type: 'success' }), 2000)
+          setTimeout(() => setNotificationMessage({ message: `Successfully added ${newName}`, type: 'success' }), 1000)
         })
         .catch(error => setNotificationMessage({ message: `${error}`, type: 'error' }))
     }
   }
 
   const removePersonOf = id => {
-    const person = persons.find(person => person.id === id)
+    return () => {
+      const person = persons.find(person => person.id === id)
 
-    if (window.confirm(`Remove ${person.name}?`)) {
-      personService.remove(id, person)
-      .then(() => {
-        setPersons(persons.filter(person => person.id !== id))
-        setNewName('')
-        setTelephoneNumber('')
-        setTimeout(() => setNotificationMessage({ message: `Successfully removed ${person.name}`, type: 'success' }), 2000)
-      })
-      .catch(error => setNotificationMessage({ message: `${error}`, type: 'error' }))
+      if (window.confirm(`Remove ${person.name}?`)) {
+        personService.remove(id, person)
+        .then(() => {
+          setPersons(persons.filter(person => person.id !== id))
+          setNewName('')
+          setTelephoneNumber('')
+          setTimeout(() => setNotificationMessage({ message: `Successfully removed ${person.name}`, type: 'success' }), 1000)
+        })
+        .catch(error => setNotificationMessage({ message: `${error}`, type: 'error' }))
+      }
     }
   }
 
@@ -99,7 +102,7 @@ const App = () => {
           <PersonInfo           
             person={person} 
             key={person.id}
-            removePerson={() => removePersonOf(person.id)}             
+            removePerson={removePersonOf(person.id)}
           />
         ))}
       </ul>
