@@ -40,12 +40,11 @@ const App = () => {
           .update(previousPerson.id, { name: previousPerson.name, telNo: telephoneNumber })
           .then(updatedPerson => {
             setPersons(persons.map(person => person.name === newName ? updatedPerson : person))
+            setNewName('')
+            setTelephoneNumber('')        
+            setTimeout(() => setNotificationMessage({ message: `Successfully updated telephone number for ${newName}`, type: 'success' }), 1000)
           })
-          .catch(error => setNotificationMessage({ message: `${error}`, type: 'error' }))
-
-          setNewName('')
-          setTelephoneNumber('')        
-          setTimeout(() => setNotificationMessage({ message: `Successfully updated telephone number for ${newName}`, type: 'success' }), 1000)
+          .catch(error => setNotificationMessage({ message: `${error.response.data.error}`, type: 'error' }))
       }
     } else {
       personService
@@ -56,7 +55,9 @@ const App = () => {
           setTelephoneNumber('')                
           setTimeout(() => setNotificationMessage({ message: `Successfully added ${newName}`, type: 'success' }), 1000)
         })
-        .catch(error => setNotificationMessage({ message: `${error}`, type: 'error' }))
+        .catch(error => {
+          setNotificationMessage({ message: `${error.response.data.error}`, type: 'error' })
+        })
     }
   }
 
