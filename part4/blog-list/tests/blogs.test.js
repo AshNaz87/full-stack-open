@@ -1,4 +1,5 @@
 const listHelper = require('../utils/list_helper')
+const Blog = require('../models/blog')
 
 const singleBlog = [
   {
@@ -97,26 +98,27 @@ describe('Favourite blog', () => {
     const result = listHelper.favoriteBlog(multipleBlogs)
     expect(result).toEqual(favBlog)
   })
+})
 
-  describe('Author with most blogs', () => {    
-    test('returns author with most number of blogs', () => {      
-      const result = listHelper.mostBlogs(multipleBlogs)
-      expect(result.get('author')).toBe('Robert C. Martin')
-      expect(result.get('blogs')).toBe(3)
-    })
+describe('Author with most blogs', () => {    
+  test('returns author with most number of blogs', () => {      
+    const result = listHelper.mostBlogs(multipleBlogs)
+    expect(result.get('author')).toBe('Robert C. Martin')
+    expect(result.get('blogs')).toBe(3)
+  })
 
-    test('returns author and number of blogs if count is 1', () => {
-      const result = listHelper.mostBlogs(singleBlog)
-      expect(result.author).toBe('Edsger W. Dijkstra')
-      expect(result.blogs).toBe(1)
-    })
+  test('returns author and number of blogs if count is 1', () => {
+    const result = listHelper.mostBlogs(singleBlog)
+    expect(result.author).toBe('Edsger W. Dijkstra')
+    expect(result.blogs).toBe(1)
+  })
 
-    test('returns message if blog list is empty', () => {
-      const result = listHelper.mostBlogs({})
-      expect(result).toBe('Blog list is empty')
-    })
+  test('returns message if blog list is empty', () => {
+    const result = listHelper.mostBlogs({})
+    expect(result).toBe('Blog list is empty')
   })
 })
+
 
 describe('Most likes', () => {
   const onlyBlog = {
@@ -137,5 +139,16 @@ describe('Most likes', () => {
   test('returns author and no. of likes if blog count is 1', () => {
     const result = listHelper.mostLikes(singleBlog)
     expect(result).toEqual(onlyBlog)
+  })
+})
+
+describe('properties in blog object', () => {
+  test('confirms if `likes` property is omitted, it will default to 0', () => {
+    const blog = new Blog({
+      title: 'No Likes',
+      author: 'John Doe',
+      url: 'https://url.com'    
+    })
+    expect(blog.likes).toBe(0)
   })
 })
