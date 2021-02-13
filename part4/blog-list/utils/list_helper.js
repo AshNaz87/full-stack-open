@@ -1,8 +1,8 @@
-const dummy = (blogs) => 1
+const dummy = blogs => 1
 
-const totalLikes = (blogs) => blogs.reduce((acc, curr) => acc + curr.likes, 0)
+const totalLikes = blogs => blogs.reduce((acc, curr) => acc + curr.likes, 0)
 
-const favoriteBlog = (blogs) =>
+const favoriteBlog = blogs =>
   blogs.reduce((prev, curr) => {
     if (prev.likes > curr.likes) {
       return prev
@@ -11,7 +11,7 @@ const favoriteBlog = (blogs) =>
     }
   }, 0)
 
-const mostBlogs = (blogs) => {
+const mostBlogs = blogs => {
   if (Object.keys(blogs).length === 0) return 'Blog list is empty'
 
   if (blogs.length === 1) {
@@ -59,7 +59,6 @@ const mostLikes = blogs => {
   
   return arr.filter(blog => blog.likes === maxLikes)[0]
 }
-
 
 
 module.exports = {
