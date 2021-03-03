@@ -1,9 +1,11 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjYwM2FkNjhmYzJlYjYxYTMyZDhhNzNjNiIsImlhdCI6MTYxNDU0NDI2M30.OqugRljU2xA9QY6Fzd-6BQDRvDLkrvGzoFed74Djocs
 
 {
-  "title": "Baby blog",
-  "author": "Esra Nazar",
-  "url": "https://example.com/esra-nazar", 
-  "likes": 250
+  "title": "Learning to Program",
+  "author": "John Doe",
+  "url": "https://example.com/john-doe",
+  "likes": 50,
+  "user": "603ad68fc2eb61a32d8a73c6"
 }
