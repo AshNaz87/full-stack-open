@@ -45,21 +45,20 @@ const mostLikes = blogs => {
       hash[blog.author] = blog.likes
     }
   }
-  
+
   const arr = []
-  
+
   for (entry in hash) {
     arr.push({
       author: entry,
       likes: hash[entry]
     })
   }
-  
+
   const maxLikes = Math.max(...arr.map(blog => blog.likes))
-  
+
   return arr.filter(blog => blog.likes === maxLikes)[0]
 }
-
 
 module.exports = {
   dummy,
